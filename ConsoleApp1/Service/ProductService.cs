@@ -1,5 +1,6 @@
 ﻿namespace ConsoleApp1.Service;
 using ConsoleApp1.Database;
+using ConsoleApp1.exception;
 using ConsoleApp1.Models;
 public class ProductService: BaseService
 {
@@ -10,6 +11,11 @@ public class ProductService: BaseService
     }
     public void AddProduct(Product product)
     {
+        var idCheck = _shopDb.categories.Any(c => c.Id == product.Id);
+        if (idCheck)
+        {
+            throw new IdCheckException("Bu Id artiq movcuddur");
+        }
         _shopDb.products.Add(product);
     }
     public List<Product> GetAllProducts()
@@ -25,7 +31,7 @@ public class ProductService: BaseService
         }
         else
         {
-            Console.WriteLine("Bele product movcud deyil!");
+            throw new NotFoundException("Bele product movcud deyil!");
         }
     }
     public Product ProductUpdate(Product product)
@@ -40,8 +46,8 @@ public class ProductService: BaseService
         }
         else
         {
-            Console.WriteLine("Bele product movcud deyil!");
-            return null;
+            throw new NotFoundException("Bele product movcud deyil!");
+
         }
     }
     public Product ProductGetById(int productId)
@@ -53,8 +59,7 @@ public class ProductService: BaseService
         }
         else
         {
-            Console.WriteLine("Bele product movcud deyil!");
-            return null;
+            throw new NotFoundException("Bele product movcud deyil!");
         }
     }
 
