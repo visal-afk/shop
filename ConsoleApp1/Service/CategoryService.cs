@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Database;
+using ConsoleApp1.exception;
 using ConsoleApp1.Models;
 using ConsoleApp1.Service;
 namespace ConsoleApp1.Services;
@@ -11,6 +12,11 @@ public class CategoryService: BaseService
 
     public void AddCategory(Category category)
     {
+        var idCheck = _shopDb.categories.Any(c => c.Id == category.Id);
+        if (idCheck)
+        {
+            throw new Exception("Bu Id artiq movcuddur");
+        }
         _shopDb.categories.Add(category);
     }
 
@@ -29,7 +35,7 @@ public class CategoryService: BaseService
         }
         else
         {
-            Console.WriteLine("Bele category movcud deyil!");
+            throw new NotFoundException("Bele category movcud deyil!");
         }
     }
 
@@ -45,8 +51,8 @@ public class CategoryService: BaseService
         }
         else
         {
-            Console.WriteLine("Bele category movcud deyil!");
-            return null;
+            throw new NotFoundException("Bele category movcud deyil!");
+            
         }
     }
 
@@ -60,8 +66,7 @@ public class CategoryService: BaseService
         }
         else
         {
-            Console.WriteLine("Bele category movcud deyil!");
-            return null;
+            throw new NotFoundException("Bele category movcud deyil!"); 
         }
     }
 }
