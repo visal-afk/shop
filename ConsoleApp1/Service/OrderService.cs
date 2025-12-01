@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Database;
+using ConsoleApp1.exception;
 using ConsoleApp1.Models;
 using ConsoleApp1.Service;
 namespace ConsoleApp1.Services;
@@ -10,6 +11,11 @@ public class OrderService : BaseService
     }
     public void AddOrder(Order order)
     {
+        var idCheck = _shopDb.categories.Any(c => c.Id == order.Id);
+        if (idCheck)
+        {
+            throw new IdCheckException("Bu Id artiq movcuddur");
+        }
         _shopDb.orders.Add(order);
     }
     public List<Order> GetAllOrders()
@@ -39,8 +45,7 @@ public class OrderService : BaseService
         }
         else
         {
-            Console.WriteLine("Bele order movcud deyil!");
-            return null;
+            throw new NotFoundException("Bele order movcud deyil!");
         }
     }
     public Order OrderGetById(int orderId)
@@ -52,8 +57,7 @@ public class OrderService : BaseService
         }
         else
         {
-            Console.WriteLine("Bele order movcud deyil!");
-            return null;
+            throw new NotFoundException("Bele order movcud deyil!");
         }
     }
 }
