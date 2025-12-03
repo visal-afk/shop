@@ -2,55 +2,50 @@
 using ConsoleApp1.exception;
 using ConsoleApp1.Models;
 using ConsoleApp1.Service;
+using ConsoleApp1.Service.Abstract;
+
 namespace ConsoleApp1.Services;
 
-public class OrderService : BaseService
+public class OrderService : BaseService, IService<Order>
 {
     public OrderService(ShopDb shopDb) : base(shopDb)
     {
     }
-    public void AddOrder(Order order)
+
+    public void Add(Order item)
     {
-        var idCheck = _shopDb.categories.Any(c => c.Id == order.Id);
+
+        var idCheck = _shopDb.orders.Any(o => o.Id == item.Id);
         if (idCheck)
         {
             throw new IdCheckException("Bu Id artiq movcuddur");
         }
-        _shopDb.orders.Add(order);
+        _shopDb.orders.Add(item);
     }
-    public List<Order> GetAllOrders()
+
+    public void Delete(Order item)
     {
-        return _shopDb.orders;
-    }
-    public void RemoveOrder(int orderId)
-    {
-        var order = _shopDb.orders.FirstOrDefault(o => o.Id == orderId);
+
+        var order = _shopDb.orders.FirstOrDefault(o => o.Id == item.Id);
         if (order != null)
         {
             _shopDb.orders.Remove(order);
         }
         else
         {
-            Console.WriteLine("Bele order movcud deyil!");
-        }
-    }
-    public Order OrderUpdate(Order order)
-    {
-        var existingOrder = _shopDb.orders.FirstOrDefault(o => o.Id == order.Id);
-        if (existingOrder != null)
-        {
-            existingOrder.TotalAmount = order.TotalAmount;
-            existingOrder.Products = order.Products;
-            return existingOrder;
-        }
-        else
-        {
             throw new NotFoundException("Bele order movcud deyil!");
         }
     }
-    public Order OrderGetById(int orderId)
+
+    public List<Order> GetAll()
     {
-        var order = _shopDb.orders.FirstOrDefault(o => o.Id == orderId);
+        return _shopDb.orders;
+    }
+
+    public Order GetByName(string name)
+    {
+
+        var order = _shopDb.orders.FirstOrDefault(o => o.CustomerName == name);
         if (order != null)
         {
             return order;
@@ -60,4 +55,20 @@ public class OrderService : BaseService
             throw new NotFoundException("Bele order movcud deyil!");
         }
     }
+
+    public void Update(Order item)
+    {
+
+        var existingOrder = _shopDb.orders.FirstOrDefault(o => o.Id == item.Id);
+        if (existingOrder != null)
+        {
+            existingOrder.TotalAmount = item.TotalAmount;
+            existingOrder.Products = item.Products;
+        }
+        else
+        {
+            throw new NotFoundException("Bele order movcud deyil!");
+        }
+    }
+   
 }
