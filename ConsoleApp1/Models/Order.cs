@@ -13,4 +13,5 @@ public class Order:BaseModel
     public List<Product> Products{get; set;}
     public decimal TotalAmount { get; set; }
     public object Product { get; internal set; }
+    public string CustomerName { get; internal set; }
 }
