@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ConsoleApp1.Services.Abstract;
 
-namespace ConsoleApp1.Service.Abstract
+public interface IService<T>
 {
-    interface IService
-    {
-    }
+    public void Add(T item);
+    public void Delete(int id);
+    public T Update(T item);
+    public List<T> GetAll();
+    public T GetById(int id);
+
 }
