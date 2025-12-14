@@ -4,7 +4,7 @@ using ConsoleApp1.Service.Abstract;
 using ConsoleApp1.Services;
 using ConsoleApp1.UnitOfWork.Abstract;
 
-namespace ConsoleApp2.UnitOfWork.Concrets;
+namespace ConsoleApp1.UnitOfWork.Concrets;
 
 public class UnitOfWork : IUnitOfWorks
 {
