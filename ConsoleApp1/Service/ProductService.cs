@@ -21,6 +21,7 @@ public class ProductService : BaseService, IProductService
             throw new IdCheckException("Bu Id artiq movcuddur");
         }
         _shopDb.products.Add(item);
+        _shopDb.SaveChanges();
     }
 
     public void Delete(int id)
@@ -30,6 +31,7 @@ public class ProductService : BaseService, IProductService
         if (product != null)
         {
             _shopDb.products.Remove(product);
+            _shopDb.SaveChanges();
         }
         else
         {
@@ -67,6 +69,7 @@ public class ProductService : BaseService, IProductService
             existingProduct.Name = item.Name;
             existingProduct.Price = item.Price;
             existingProduct.Category = item.Category;
+            _shopDb.SaveChanges();
             return existingProduct;
         }
         else
