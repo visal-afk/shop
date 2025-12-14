@@ -21,6 +21,7 @@ public class OrderService : BaseService, IOrderService
             throw new IdCheckException("Bu Id artiq movcuddur");
         }
         _shopDb.orders.Add(item);
+        _shopDb.SaveChanges();
 
     }
 
@@ -31,6 +32,7 @@ public class OrderService : BaseService, IOrderService
         if (order != null)
         {
             _shopDb.orders.Remove(order);
+            _shopDb.SaveChanges();
         }
         else
         {
@@ -67,6 +69,7 @@ public class OrderService : BaseService, IOrderService
         {
             existingOrder.TotalAmount = item.TotalAmount;
             existingOrder.Products = item.Products;
+            _shopDb.SaveChanges();
             return existingOrder;
         }
         else
