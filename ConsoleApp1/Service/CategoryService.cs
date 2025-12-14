@@ -19,6 +19,7 @@ public class CategoryService : BaseService, ICategoryService
             throw new Exception("Bu Id artiq movcuddur");
         }
         _shopDb.categories.Add(item);
+        _shopDb.SaveChanges();
     }
 
     public void Delete(int id)
@@ -28,6 +29,7 @@ public class CategoryService : BaseService, ICategoryService
         if (category != null)
         {
             _shopDb.categories.Remove(category);
+            _shopDb.SaveChanges();
         }
         else
         {
@@ -63,6 +65,7 @@ public class CategoryService : BaseService, ICategoryService
         {
             existingCategory.Name = item.Name;
             existingCategory.Description = item.Description;
+            _shopDb.SaveChanges();
             return existingCategory;
         }
         else
